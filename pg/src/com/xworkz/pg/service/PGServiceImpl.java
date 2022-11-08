@@ -1,5 +1,6 @@
 package com.xworkz.pg.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.xworkz.pg.entity.PGEntity;
@@ -46,23 +47,35 @@ public class PGServiceImpl implements PGService {
 	}
 
 	@Override
+	public void save(List<PGEntity> list) {
+		System.out.println("running save method.....");
+		if(list!=null) {
+			this.repository.save(list);
+		}
+
+		PGService.super.save(list);
+	}
+
+	@Override
 	public Optional<PGEntity> findById(int id) {
-		if(id>0) {
+		if (id > 0) {
 			return this.repository.findById(id);
 		}
 		return Optional.empty();
 	}
+
 	@Override
 	public void updateNameBuId(int id, String newName) {
-		if(id>0 &&newName!=null) {
-		this.repository.updateNameBuId(id, newName);
+		if (id > 0 && newName != null) {
+			this.repository.updateNameBuId(id, newName);
 		}
-		
+
 		PGService.super.updateNameBuId(id, newName);
 	}
+
 	@Override
 	public void deleteById(int id) {
-		if(id>0) {
+		if (id > 0) {
 			this.repository.deleteById(id);
 		}
 		PGService.super.deleteById(id);
