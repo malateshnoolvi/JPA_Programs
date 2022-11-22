@@ -1,5 +1,6 @@
 package com.xworkz.jewellery.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +29,25 @@ public interface GoldJewelleryRepository {
 		return Optional.empty();
 	}
 
-	default Optional<Integer> findTotalPriceByGramAndShopName(double gram, String shopName) {
+	default Optional<Long> findTotalPriceByGramAndShopName(double gram, String shopName) {
 		return Optional.empty();
 	}
+	List<GoldJewelleryEntity> getAll();
+	
+	Collection<String> getAllShopName();
+
+	Collection<Object[]> getAllShopNameAndType();
+	
+	Optional<Collection<GoldJewelleryEntity>> findAllByWastageChargesLessThan(int charges);
+	
+	Optional<Collection<GoldJewelleryEntity>> findAllByMakingChargesGreaterThan(int charges);
+	Optional<Collection<GoldJewelleryEntity>> findAllByWastedChargesGreaterThanAndMakingChargesGreaterThan(int charges1,int charges2);
+
+
+	
+	
+	
+	
+	
 
 }

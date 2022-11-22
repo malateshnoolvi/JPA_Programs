@@ -1,7 +1,9 @@
 package com.xworkz.jewellery.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.ObjDoubleConsumer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -56,7 +58,7 @@ public class GoldJewelleryRepositoryImpl implements GoldJewelleryRepository {
 		Object singleResult = query.getSingleResult();
 		GoldJewelleryEntity array = (GoldJewelleryEntity) singleResult;
 		return Optional.of(array);
-	}
+	}//mnmn
 
 	@Override
 	public Optional<String> findShopNameById(int id) {
@@ -88,13 +90,72 @@ public class GoldJewelleryRepositoryImpl implements GoldJewelleryRepository {
 	}
 
 	@Override
-	public Optional<Integer> findTotalPriceByGramAndShopName(double gram, String shopName) {
+	public Optional<Long> findTotalPriceByGramAndShopName(double gram, String shopName) {
 		EntityManager manager = factory.createEntityManager();
 		Query query = manager.createNamedQuery("findTotalPriceByGramAndShopName");
-		query.setParameter("gm",gram);
-		query.setParameter("sn", shopName);
+		query.setParameter("gm", gram);
+		query.setParameter("nm", shopName);
 		Object singleResult = query.getSingleResult();
-		Integer totalPrice=(Integer)singleResult;
+		Long totalPrice = (Long) singleResult;
 		return Optional.of(totalPrice);
 	}
+
+	@Override
+	public List<GoldJewelleryEntity> getAll() {
+		EntityManager manager = factory.createEntityManager();
+		Query query = manager.createNamedQuery("getAll");
+		List resultList = query.getResultList();
+
+		return resultList;
+	}
+
+	@Override
+	public Collection<String> getAllShopName() {
+		EntityManager manager = factory.createEntityManager();
+		Query query = manager.createNamedQuery("getAllShopName");
+		List resultList = query.getResultList();
+		return resultList;
+	}
+
+	@Override
+	public Collection<Object[]> getAllShopNameAndType() {
+		EntityManager manager = factory.createEntityManager();
+		Query query = manager.createNamedQuery("getAllShopNameAndType");
+		List resultList = query.getResultList();
+		return resultList;
+	}
+
+	@Override
+	public Optional<Collection<GoldJewelleryEntity>> findAllByWastageChargesLessThan(int charges) {
+		EntityManager manager = factory.createEntityManager();
+		Query query = manager.createNamedQuery("findAllByWastageChargesLessThan");
+		query.setParameter("wc", charges);
+		List resultList = query.getResultList();
+		
+		
+		return Optional.of(resultList);
+	}
+
+	@Override
+	public Optional<Collection<GoldJewelleryEntity>> findAllByMakingChargesGreaterThan(int charges) {
+
+		EntityManager manager = factory.createEntityManager();
+		Query query = manager.createNamedQuery("findAllByMakingChargesGreaterThan");
+		query.setParameter("mc", charges);
+		List resultList = query.getResultList();
+		return Optional.of(resultList);
+	}
+
+	@Override
+	public Optional<Collection<GoldJewelleryEntity>> findAllByWastedChargesGreaterThanAndMakingChargesGreaterThan(
+			int charges1, int charges2) {
+		EntityManager manager = factory.createEntityManager();
+		Query query = manager.createNamedQuery("findAllByWastedChargesGreaterThanAndMakingChargesGreaterThan");
+		query.setParameter("mc", charges1);
+		query.setParameter("wc", charges2);
+		List resultList = query.getResultList();
+		
+		return Optional.of(resultList);
+	}
+
 }

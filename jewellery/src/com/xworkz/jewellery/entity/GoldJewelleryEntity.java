@@ -28,7 +28,13 @@ import lombok.NoArgsConstructor;
 @NamedQuery(name = "findShopNameById", query = "select entity.shopName from GoldJewelleryEntity entity where id=:mn")
 @NamedQuery(name = "findMakingChargesByShopName", query = "select entity.makingCharge from GoldJewelleryEntity entity where shopName=:sp")
 @NamedQuery(name = "findWastageChargesAndMakingChargesByShopName", query = "select entity.wastageCharge,entity.makingCharge from GoldJewelleryEntity entity where shopName=:sp")
-@NamedQuery(name = "findTotalPriceByGramAndShopName", query = "select sum(goldPrice) from GoldJewelleryEntity entity where entity.grams=:gm and entity.shopName=:sn")
+@NamedQuery(name = "findTotalPriceByGramAndShopName", query = "select sum(goldPrice+gstPrice) from GoldJewelleryEntity entity where entity.shopName=:nm and entity.grams=:gm")
+@NamedQuery(name = "getAll",query = "select entity from GoldJewelleryEntity entity")
+@NamedQuery(name = "getAllShopName",query = "select entity.shopName from GoldJewelleryEntity entity")
+@NamedQuery(name = "getAllShopNameAndType",query = "select entity.shopName,entity.type from GoldJewelleryEntity entity")
+@NamedQuery(name = "findAllByWastageChargesLessThan",query = "select entity from GoldJewelleryEntity entity where entity.wastageCharge<:wc")
+@NamedQuery(name = "findAllByMakingChargesGreaterThan",query = "select entity from GoldJewelleryEntity entity where entity.makingCharge>:mc")
+@NamedQuery(name = "findAllByWastedChargesGreaterThanAndMakingChargesGreaterThan",query = "select entity from GoldJewelleryEntity entity where entity.makingCharge>:mc and entity.wastageCharge>:wc")
 public class GoldJewelleryEntity {
 	@Id
 	@Min(0)
@@ -53,11 +59,11 @@ public class GoldJewelleryEntity {
 	private double grams;
 	@Min(500)
 	@Max(5000)
-	@Column(name = "makingCharge")
+	@Column(name = "makingCharges")
 	private int makingCharge;
 	@Min(500)
 	@Max(5000)
-	@Column(name = "wastageCharge")
+	@Column(name = "wastageCharges")
 	private int wastageCharge;
 	@Column(name = "copper")
 	private boolean copper;

@@ -1,6 +1,7 @@
 package com.xworkz.jewellery.art;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,8 @@ public class GoldJewelleryArt {
 				true, "lalita");
 		GoldJewelleryEntity jewelleryEntity5 = new GoldJewelleryEntity(Type.RING, 650000, 1800, 33, 2000, 1900, true,
 				"jyoti");
+		GoldJewelleryEntity jewelleryEntity6 = new GoldJewelleryEntity(Type.EARRING, 500000, 1000, 27, 1200, 1400, true,
+				"tanisq");
 		GoldJewelleryEntity jewelleryEntity7 = new GoldJewelleryEntity(Type.NECKLESS, 750000, 2000, 36, 1700, 1300,
 				true, "mahalaxmi");
 		GoldJewelleryService service = new GoldJewelleryServiceImpl();
@@ -31,9 +34,11 @@ public class GoldJewelleryArt {
 		service.validateAndSave(jewelleryEntity3);
 		service.validateAndSave(jewelleryEntity4);
 
+		System.out.println("--------------------------------------------");
+
 		List<GoldJewelleryEntity> list = new ArrayList<GoldJewelleryEntity>();
 		list.add(jewelleryEntity5);
-		//list.add(jewelleryEntity6);
+		list.add(jewelleryEntity6);
 		list.add(jewelleryEntity7);
 		service.save(list);
 
@@ -76,14 +81,50 @@ public class GoldJewelleryArt {
 			System.out.println("charges is not found");
 		}
 		System.out.println("--------------------------------------------");
-		Optional<Integer> totalPriceByGramAndShopName = service.findTotalPriceByGramAndShopName(35, "lalita");
-		if (totalPriceByGramAndShopName.isPresent()) {
-			Integer price = totalPriceByGramAndShopName.get();
-			System.out.println(price);
+		Optional<Long> optional = service.findTotalPriceByGramAndShopName(35.00, "lalita");
+		if (optional.isPresent()) {
+			Long integer = optional.get();
+			System.out.println(integer);
 		} else {
 			System.out.println("totalprice not found");
 		}
+		Collection<GoldJewelleryEntity> all = service.getAll();
+		System.out.println(all);
+		System.out.println("---------------------------------------------");
 
+		Collection<String> allShopName = service.getAllShopName();
+		System.out.println(allShopName);
+		System.out.println("---------------------------------------------");
+
+		Collection<Object[]> shopNameAndType = service.getAllShopNameAndType();
+		for (Object[] objects2 : shopNameAndType) {
+			System.out.println(objects2[0]);
+			System.out.println(objects2[1]);// c
+		}
+		System.out.println("----------------------------------------------");
+
+		Optional<Collection<GoldJewelleryEntity>> optional1 = service.findAllByWastageChargesLessThan(1500);
+		if (optional1.isPresent()) {
+			Collection<GoldJewelleryEntity> collection = optional1.get();
+			System.out.println(collection);
+		}
+		System.out.println("-----------------------------------------------");
+		Optional<Collection<GoldJewelleryEntity>> findAllByMakingChargesGreaterThan = service
+				.findAllByMakingChargesGreaterThan(1200);
+		if (findAllByMakingChargesGreaterThan.isPresent()) {
+			Collection<GoldJewelleryEntity> collection = findAllByMakingChargesGreaterThan.get();
+			System.out.println(collection);
+		}
+
+		System.out.println("-----------------------------------------------");
+
+		Optional<Collection<GoldJewelleryEntity>> optional2 = service
+				.findAllByWastedChargesGreaterThanAndMakingChargesGreaterThan(1200, 2000);
+		if (optional2.isPresent()) {
+			Collection<GoldJewelleryEntity> collection = optional2.get();
+			System.out.println(collection);
+		}
+		System.out.println("-----------------------------------------------");
 	}
 
 }

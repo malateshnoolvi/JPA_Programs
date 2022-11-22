@@ -1,5 +1,6 @@
 package com.xworkz.jewellery.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -74,10 +75,46 @@ public class GoldJewelleryServiceImpl implements GoldJewelleryService {
 	}
 
 	@Override
-	public Optional<Integer> findTotalPriceByGramAndShopName(double gram, String shopName) {
+	public Optional<Long> findTotalPriceByGramAndShopName(double gram, String shopName) {
 		if (gram > 0 && shopName != null) {
 			return this.repository.findTotalPriceByGramAndShopName(gram, shopName);
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public Collection<GoldJewelleryEntity> getAll() {
+		return this.repository.getAll();
+	}
+
+	@Override
+	public Collection<String> getAllShopName() {
+	return this.repository.getAllShopName();
+	}
+
+	@Override
+	public Collection<Object[]> getAllShopNameAndType() {
+		return this.repository.getAllShopNameAndType();
+	}
+
+	@Override
+	public Optional<Collection<GoldJewelleryEntity>> findAllByWastageChargesLessThan(int charges) {
+	if(charges>0) {
+		 return this.repository.findAllByWastageChargesLessThan(charges);
+	}
+	return Optional.empty();
+	}
+
+	@Override
+	public Optional<Collection<GoldJewelleryEntity>> findAllByMakingChargesGreaterThan(int charges) {
+		// TODO Auto-generated method stub
+		return this.repository.findAllByMakingChargesGreaterThan(charges);
+	}
+
+	@Override
+	public Optional<Collection<GoldJewelleryEntity>> findAllByWastedChargesGreaterThanAndMakingChargesGreaterThan(
+			int charges1, int charges2) {
+		// TODO Auto-generated method stub
+		return repository.findAllByWastedChargesGreaterThanAndMakingChargesGreaterThan(charges1, charges2);
 	}
 }
